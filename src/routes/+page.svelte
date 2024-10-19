@@ -1,33 +1,40 @@
 <script lang="ts">
-	import Nested from '../components/Nested.svelte';
+	import { onMount } from 'svelte';
 
 	let toDO = '';
-	let names: string[] = [];
+	let todos: toDO[] = [];
+
+	onMount(() => {
+		const storedTodos = localStorage.getItem('todos');
+		if (storedTodos) {
+			todos = JSON.parse(storedTodos);
+		}
+	});
+
+	type toDO = {
+		toDo: string;
+		completed: boolean;
+	};
 
 	function addTodos() {
-		names.unshift(toDO);
-		names = names;
+		todos.unshift({ toDo: toDO, completed: false });
+		todos = todos;
 	}
 
 	function removeATodo(index: number) {
-		names = names.filter((_, i) => i !== index);
+		todos = todos.filter((_, i) => i !== index);
 	}
-</script>
 
-<!-- <h1>Welcome to {name}</h1> -->
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+	$: console.log(todos);
+</script>
 
 <input type="text" bind:value={toDO} />
 <button on:click={addTodos}>Add a Todo</button>
 
-<!-- <Nested {names} /> -->
-<!-- {#if names.length > 0}
-	<p>{names[0]}</p>
-{/if} -->
-
-{#each names as name, index}
+{#each todos as todo, index}
 	<div class="todo">
-		<p>{name}</p>
+		<input type="checkbox" bind:checked={todo.completed} />
+		<p>{todo.toDo}</p>
 		<button on:click={() => removeATodo(index)}>Delete</button>
 	</div>
 {/each}
