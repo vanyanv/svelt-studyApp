@@ -41,6 +41,12 @@
 		updateStorage();
 	}
 
+	function updateCompletion(index: number) {
+		if (!todos[index]) return;
+		todos[index].completed = !todos[index].completed;
+		updateStorage();
+	}
+
 	$: console.log(todos);
 </script>
 
@@ -56,7 +62,7 @@
 {/if}
 
 {#each todos as todo, index}
-	<Todo {index} {todo} {updateStorage} {removeATodo} {editATodo} />
+	<Todo {index} {todo} {updateCompletion} {removeATodo} {editATodo} />
 {/each}
 
 <style>

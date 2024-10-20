@@ -11,7 +11,7 @@
 	}
 	export let index: number;
 	export let todo: toDO;
-	export let updateStorage: () => void;
+	export let updateCompletion: (index: number) => void;
 	export let removeATodo: (index: number) => void;
 	export let editATodo: (newTodo: string, index: number) => void;
 </script>
@@ -30,7 +30,7 @@
 			<button class="cancel" on:click={handleEdit}>Cancel</button>
 		</div>
 	{:else}
-		<input type="checkbox" bind:checked={todo.completed} on:click={updateStorage} />
+		<input type="checkbox" checked={todo.completed} on:click={() => updateCompletion(index)} />
 		<p class:completed={todo.completed}>{todo.toDo}</p>
 		<div class="todo-buttons">
 			<button class="delete" on:click={() => removeATodo(index)}>Delete</button>
