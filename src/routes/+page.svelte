@@ -2,6 +2,11 @@
 	import { onMount } from 'svelte';
 	import Todo from '../components/Todo.svelte';
 
+	type toDO = {
+		toDo: string;
+		completed: boolean;
+	};
+
 	let toDO = '';
 	let todos: toDO[] = [];
 
@@ -14,22 +19,25 @@
 
 	//updating local Storage
 	function updateStorage() {
+		console.log('storage updated');
 		localStorage.setItem('todos', JSON.stringify(todos));
 	}
 
-	type toDO = {
-		toDo: string;
-		completed: boolean;
-	};
-
+	//add a todo
 	function addTodos() {
 		todos.unshift({ toDo: toDO, completed: false });
 		updateStorage();
 		todos = todos;
 	}
-
+	//remove a todo
 	function removeATodo(index: number) {
 		todos = todos.filter((_, i) => i !== index);
+		updateStorage();
+	}
+	//edit a todo
+	function editATodo(newTodo: string, index: number) {
+		if (!todos[index]) return;
+		todos[index].toDo = newTodo;
 		updateStorage();
 	}
 
@@ -48,7 +56,7 @@
 {/if}
 
 {#each todos as todo, index}
-	<Todo {index} {todo} {updateStorage} {removeATodo} />
+	<Todo {index} {todo} {updateStorage} {removeATodo} {editATodo} />
 {/each}
 
 <style>

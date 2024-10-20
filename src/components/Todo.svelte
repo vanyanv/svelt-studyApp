@@ -4,21 +4,39 @@
 		completed: boolean;
 	};
 
+	let editing: boolean = false;
+	let edit: string;
+	function handleEdit() {
+		editing = !editing;
+	}
 	export let index: number;
 	export let todo: toDO;
 	export let updateStorage: () => void;
 	export let removeATodo: (index: number) => void;
+	export let editATodo: (newTodo: string, index: number) => void;
 </script>
 
-
-
 <div class="todo">
-	<input type="checkbox" bind:checked={todo.completed} on:click={updateStorage} />
-	<p class:completed={todo.completed}>{todo.toDo}</p>
-	<div class="todo-buttons">
-		<button class="delete" on:click={() => removeATodo(index)}>Delete</button>
-		<button class="edit">Edit</button>
-	</div>
+	{#if editing}
+		<div class="edit-container">
+			<input type="text" bind:value={edit} class="edit-input" placeholder={todo.toDo} />
+			<button
+				class="confirm"
+				on:click={() => {
+					editATodo(edit, index);
+					handleEdit();
+				}}>Confirm</button
+			>
+			<button class="cancel" on:click={handleEdit}>Cancel</button>
+		</div>
+	{:else}
+		<input type="checkbox" bind:checked={todo.completed} on:click={updateStorage} />
+		<p class:completed={todo.completed}>{todo.toDo}</p>
+		<div class="todo-buttons">
+			<button class="delete" on:click={() => removeATodo(index)}>Delete</button>
+			<button class="edit" on:click={handleEdit}>Edit</button>
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -51,6 +69,57 @@
 	.todo p.completed {
 		text-decoration: line-through;
 		color: #95a5a6; /* Softer grey for completed tasks */
+	}
+
+	/* Editing Mode Styles */
+	.edit-container {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+	}
+
+	.edit-input {
+		flex: 1;
+		padding: 10px;
+		border: 1px solid #bdc3c7;
+		border-radius: 4px;
+		font-size: 1rem;
+		color: #34495e; /* Darker grey for text */
+	}
+
+	.confirm {
+		background-color: #2ecc71; /* Bright green for confirm button */
+		color: white;
+		padding: 8px 16px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		transition:
+			background-color 0.3s,
+			transform 0.2s;
+	}
+
+	.confirm:hover {
+		background-color: #27ae60; /* Darker green on hover */
+		transform: translateY(-2px);
+	}
+
+	.cancel {
+		background-color: #e74c3c; /* Bright red for cancel button */
+		color: white;
+		padding: 8px 16px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		transition:
+			background-color 0.3s,
+			transform 0.2s;
+	}
+
+	.cancel:hover {
+		background-color: #c0392b; /* Darker red on hover */
+		transform: translateY(-2px);
 	}
 
 	/* To-Do Buttons */
