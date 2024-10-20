@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import Todo from '../components/Todo.svelte';
 
 	let toDO = '';
 	let todos: toDO[] = [];
@@ -35,31 +36,73 @@
 	$: console.log(todos);
 </script>
 
-<h1>To do List</h1>
-<input type="text" bind:value={toDO} />
-<button on:click={addTodos}>Add a Todo</button>
+<h1>To Do List</h1>
+<div class="input-container">
+	<input type="text" bind:value={toDO} placeholder="Enter a new task" />
+	<button on:click={addTodos}>Add</button>
+</div>
+
+<h1>Available Tasks</h1>
+{#if todos.length == 0}
+	<p>Loading Tasks....</p>
+{/if}
 
 {#each todos as todo, index}
-	<div class="todo">
-		<input type="checkbox" bind:checked={todo.completed} on:click={updateStorage} />
-		<p>{todo.toDo}</p>
-		<button on:click={() => removeATodo(index)}>Delete</button>
-	</div>
+	<Todo {index} {todo} {updateStorage} {removeATodo} />
 {/each}
 
 <style>
-	.todo {
-		display: flex;
-		align-items: center;
-		overflow-wrap: break-word;
-		gap: 15px;
-		height: 50px;
-		width: 500px;
+	/* General Styles */
+	h1 {
+		font-family: 'Arial', sans-serif;
+		color: #2c3e50; /* Darker navy color for better contrast */
+		font-size: 2rem;
+		margin-bottom: 20px;
 	}
 
-	p {
-		color: goldenrod;
-		font-family: 'Comic Sans MS', cursive;
-		font-size: 1.5em;
+	/* Input Section */
+	.input-container {
+		display: flex;
+		gap: 10px;
+		margin-bottom: 20px;
+		align-items: center;
+	}
+
+	input[type='text'] {
+		flex: 1;
+		padding: 12px;
+		border: 1px solid #bdc3c7; /* Light grey border */
+		border-radius: 4px;
+		font-size: 1rem;
+		background-color: #fff;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+		transition: border-color 0.3s;
+	}
+
+	input[type='text']:focus {
+		border-color: #2980b9; /* Blue for focus state */
+		outline: none;
+	}
+
+	button {
+		padding: 12px 24px;
+		border: none;
+		border-radius: 4px;
+		background-color: #2980b9; /* Vibrant blue for primary buttons */
+		color: #fff;
+		font-size: 1rem;
+		cursor: pointer;
+		transition:
+			background-color 0.3s,
+			transform 0.2s;
+	}
+
+	button:hover {
+		background-color: #1c5982; /* Darker blue on hover */
+		transform: translateY(-2px);
+	}
+
+	button:active {
+		transform: translateY(0);
 	}
 </style>
