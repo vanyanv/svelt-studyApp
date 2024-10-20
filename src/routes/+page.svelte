@@ -5,6 +5,7 @@
 	type toDO = {
 		toDo: string;
 		completed: boolean;
+		priority: 'high' | 'medium' | 'low';
 	};
 
 	let toDO = '';
@@ -25,7 +26,7 @@
 
 	//add a todo
 	function addTodos() {
-		todos.unshift({ toDo: toDO, completed: false });
+		todos.unshift({ toDo: toDO, completed: false, priority: 'medium' });
 		updateStorage();
 		todos = todos;
 	}
