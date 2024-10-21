@@ -1,4 +1,6 @@
 <script lang="ts">
+	import PrioritiesDropdown from './Priorities-Dropdown.svelte';
+
 	type toDO = {
 		toDo: string;
 		completed: boolean;
@@ -7,6 +9,7 @@
 
 	let editing: boolean = false;
 	let edit: string;
+
 	function handleEdit() {
 		editing = !editing;
 	}
@@ -14,17 +17,20 @@
 	export let todo: toDO;
 	export let updateCompletion: (index: number) => void;
 	export let removeATodo: (index: number) => void;
-	export let editATodo: (newTodo: string, index: number) => void;
+	export let editATodo: (newTodo: string, index: number, priority: toDO['priority']) => void;
+
+	let priorityForUser: toDO['priority'] = todo.priority;
 </script>
 
 <div class="todo {todo.priority}">
 	{#if editing}
 		<div class="edit-container">
 			<input type="text" bind:value={edit} class="edit-input" placeholder={todo.toDo} />
+			<PrioritiesDropdown bind:priorityForUser />
 			<button
 				class="confirm"
 				on:click={() => {
-					editATodo(edit, index);
+					editATodo(edit, index, priorityForUser);
 					handleEdit();
 				}}>Confirm</button
 			>

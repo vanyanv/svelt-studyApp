@@ -43,9 +43,11 @@
 		updateStorage();
 	}
 	//edit a todo
-	function editATodo(newTodo: string, index: number) {
+	function editATodo(newTodo: string, index: number, newPriority: priorities) {
 		if (!todos[index]) return;
-		todos[index].toDo = newTodo;
+		// Ensure both the task and priority are updated
+		todos[index].toDo = newTodo || todos[index].toDo; // Preserve old todo if no new one is passed
+		todos[index].priority = newPriority;
 		updateStorage();
 	}
 
