@@ -47,7 +47,7 @@
 		if (!todos[index]) return;
 		// Ensure both the task and priority are updated
 		todos[index].toDo = newTodo || todos[index].toDo; // Preserve old todo if no new one is passed
-		todos[index].priority = newPriority;
+		todos[index].priority = newPriority || todos[index].priority;
 		updateStorage();
 	}
 
