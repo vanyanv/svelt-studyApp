@@ -12,7 +12,7 @@ A simple and intuitive To-Do List application built with Svelte. This project al
 ## Upcoming Features
 
 - [x] **Edit items**: Modify existing tasks.
-- [ ] **Task Priority**: Assign priorities (high, medium, low) to tasks.
+- [x] **Task Priority**: Assign priorities (high, medium, low) to tasks.
 - [ ] **Filter tasks**: View tasks by status (all, completed).
 - [ ] **Task Count**: Display total and completed task counts.
 

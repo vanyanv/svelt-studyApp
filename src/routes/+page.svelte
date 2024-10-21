@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Todo from '../components/Todo.svelte';
+	import PrioritiesDropdown from '../components/Priorities-Dropdown.svelte';
 
 	type priorities = 'high' | 'medium' | 'low' | 'none';
 
@@ -13,6 +14,7 @@
 	const priorities = ['high', 'medium', 'low'];
 	let toDO = '';
 	let priorityForUser: priorities = 'none';
+	$: console.log('main', priorityForUser);
 	let todos: toDO[] = [];
 
 	onMount(() => {
@@ -30,6 +32,7 @@
 
 	//add a todo
 	function addTodos() {
+		console.log(priorityForUser);
 		todos.unshift({ toDo: toDO, completed: false, priority: priorityForUser });
 		updateStorage();
 		todos = todos;
@@ -60,12 +63,13 @@
 	<input type="text" bind:value={toDO} placeholder="Enter a new task" />
 	<button on:click={addTodos}>Add</button>
 	<label for="priority">Select a Priority</label>
-	<select bind:value={priorityForUser}>
+	<!-- <select bind:value={priorityForUser}>
 		<option value="none">choose a priority</option>
 		{#each priorities as priority}
 			<option value={priority}>{priority}</option>
 		{/each}
-	</select>
+	</select> -->
+	<PrioritiesDropdown bind:priorityForUser />
 </div>
 
 <h1>Available Tasks</h1>
@@ -110,21 +114,6 @@
 	}
 
 	input[type='text']:focus {
-		border-color: #2980b9;
-		outline: none;
-	}
-
-	select {
-		flex: 1;
-		padding: 12px;
-		border: 1px solid #bdc3c7;
-		border-radius: 6px;
-		background-color: #fff;
-		font-size: 1rem;
-		transition: border-color 0.3s ease-in-out;
-	}
-
-	select:focus {
 		border-color: #2980b9;
 		outline: none;
 	}
