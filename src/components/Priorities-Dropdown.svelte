@@ -1,9 +1,10 @@
+<!-- @migration-task Error while migrating Svelte code: Identifier 'priorities' has already been declared -->
 <script lang="ts">
-	type priorities = 'high' | 'medium' | 'low' | 'none';
+	type prioritieOptions = 'high' | 'medium' | 'low' | 'none';
 
 	const priorities = ['high', 'medium', 'low'];
 
-	export let priorityForUser: priorities;
+	export let priorityForUser: prioritieOptions;
 </script>
 
 <select bind:value={priorityForUser}>

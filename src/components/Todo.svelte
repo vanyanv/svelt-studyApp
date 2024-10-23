@@ -7,19 +7,29 @@
 		priority: 'high' | 'medium' | 'low' | 'none';
 	};
 
-	let editing: boolean = false;
-	let edit: string;
+	let editing: boolean = $state(false);
+	let edit: string = $state();
 
 	function handleEdit() {
 		editing = !editing;
 	}
-	export let index: number;
-	export let todo: toDO;
-	export let updateCompletion: (index: number) => void;
-	export let removeATodo: (index: number) => void;
-	export let editATodo: (newTodo: string, index: number, priority: toDO['priority']) => void;
+	interface Props {
+		index: number;
+		todo: toDO;
+		updateCompletion: (index: number) => void;
+		removeATodo: (index: number) => void;
+		editATodo: (newTodo: string, index: number, priority: toDO['priority']) => void;
+	}
 
-	let priorityForUser: toDO['priority'] = todo.priority;
+	let {
+		index,
+		todo,
+		updateCompletion,
+		removeATodo,
+		editATodo
+	}: Props = $props();
+
+	let priorityForUser: toDO['priority'] = $state(todo.priority);
 </script>
 
 <div class="todo {todo.priority}">
@@ -29,20 +39,20 @@
 			<PrioritiesDropdown bind:priorityForUser />
 			<button
 				class="confirm"
-				on:click={() => {
+				onclick={() => {
 					editATodo(edit, index, priorityForUser);
 					handleEdit();
 				}}>Confirm</button
 			>
-			<button class="cancel" on:click={handleEdit}>Cancel</button>
+			<button class="cancel" onclick={handleEdit}>Cancel</button>
 		</div>
 	{:else}
-		<input type="checkbox" checked={todo.completed} on:click={() => updateCompletion(index)} />
+		<input type="checkbox" checked={todo.completed} onclick={() => updateCompletion(index)} />
 		<p class:completed={todo.completed}>{todo.toDo}</p>
 		<p class="priority-label">{todo.priority}</p>
 		<div class="todo-buttons">
-			<button class="delete" on:click={() => removeATodo(index)}>Delete</button>
-			<button class="edit" on:click={handleEdit}>Edit</button>
+			<button class="delete" onclick={() => removeATodo(index)}>Delete</button>
+			<button class="edit" onclick={handleEdit}>Edit</button>
 		</div>
 	{/if}
 </div>

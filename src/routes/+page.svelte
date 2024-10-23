@@ -5,17 +5,16 @@
 
 	type priorities = 'high' | 'medium' | 'low' | 'none';
 
-	type toDO = {
+	type ToDo = {
 		toDo: string;
 		completed: boolean;
 		priority: priorities;
 	};
 
-	const priorities = ['high', 'medium', 'low'];
-	let toDO = '';
+	let newToDo = '';
 	let priorityForUser: priorities = 'none';
-	$: console.log('main', priorityForUser);
-	let todos: toDO[] = [];
+	$derived: console.log('main', priorityForUser);
+	let todos: ToDo[] = $state([]);
 
 	onMount(() => {
 		const storedTodos = localStorage.getItem('todos');
@@ -33,7 +32,7 @@
 	//add a todo
 	function addTodos() {
 		console.log(priorityForUser);
-		todos.unshift({ toDo: toDO, completed: false, priority: priorityForUser });
+		todos.unshift({ toDo: newToDo, completed: false, priority: priorityForUser });
 		updateStorage();
 		todos = todos;
 	}
@@ -57,20 +56,14 @@
 		updateStorage();
 	}
 
-	$: console.log(todos);
+	$derived: console.log(todos);
 </script>
 
 <h1>To Do List</h1>
 <div class="input-container">
-	<input type="text" bind:value={toDO} placeholder="Enter a new task" />
+	<input type="text" bind:value={newToDo} placeholder="Enter a new task" />
 	<button on:click={addTodos}>Add</button>
 	<label for="priority">Select a Priority</label>
-	<!-- <select bind:value={priorityForUser}>
-		<option value="none">choose a priority</option>
-		{#each priorities as priority}
-			<option value={priority}>{priority}</option>
-		{/each}
-	</select> -->
 	<PrioritiesDropdown bind:priorityForUser />
 </div>
 
