@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import Todo from '../components/Todo.svelte';
 	import PrioritiesDropdown from '../components/Priorities-Dropdown.svelte';
 
@@ -11,12 +10,13 @@
 		priority: priorities;
 	};
 
-	let newToDo = '';
-	let priorityForUser: priorities = 'none';
-	$derived: console.log('main', priorityForUser);
-	let todos: ToDo[] = $state([]);
+	let newToDo = $state('');
+	let priorityForUser: priorities = $state('none');
 
-	onMount(() => {
+	let todos: ToDo[] = $state([]);
+	$derived: console.log('main', priorityForUser);
+
+	$effect(() => {
 		const storedTodos = localStorage.getItem('todos');
 		if (storedTodos) {
 			todos = JSON.parse(storedTodos);
