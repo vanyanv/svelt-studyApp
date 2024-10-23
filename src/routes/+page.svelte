@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Todo from '../components/Todo.svelte';
+	import Statistics from '../components/Statistics.svelte';
 	import PrioritiesDropdown from '../components/Priorities-Dropdown.svelte';
 
 	type priorities = 'high' | 'medium' | 'low' | 'none';
@@ -14,6 +15,15 @@
 	let priorityForUser: priorities = $state('none');
 
 	let todos: ToDo[] = $state([]);
+
+	//dynamic stats
+	let numberOfTotalTasks: number = $derived(todos.length);
+	let numberOfCompletedTasks = $derived.by(() => {
+		return todos.filter((todo) => todo.completed).length;
+	});
+	let numberofRemainingTasks = $derived.by(() => {
+		return todos.filter((todo) => !todo.completed).length;
+	});
 	$derived: console.log('main', priorityForUser);
 
 	$effect(() => {
@@ -67,7 +77,10 @@
 	<PrioritiesDropdown bind:priorityForUser />
 </div>
 
-<h1>Available Tasks</h1>
+<!-- // statistics and data -->
+<Statistics {numberOfCompletedTasks} {numberofRemainingTasks} {numberOfTotalTasks} />
+
+<h2>Tasks</h2>
 {#if todos.length == 0}
 	<p>Loading Tasks....</p>
 {/if}

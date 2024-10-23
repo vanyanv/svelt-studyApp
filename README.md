@@ -23,7 +23,7 @@ Below are feature ideas that will help you dive deeper into Svelte’s core conc
 
 ### 2. Reactive Variables
 
-- [ ] **Feature**: Display dynamic statistics such as the total number of tasks, number of completed tasks, or tasks remaining.
+- [x] **Feature**: Display dynamic statistics such as the total number of tasks, number of completed tasks, or tasks remaining.
 - **Concept**: Svelte’s reactivity automatically updates the DOM when reactive variables change.
 - **Learning Outcome**: Learn how Svelte’s reactive variables work to update the UI as data changes.
 
