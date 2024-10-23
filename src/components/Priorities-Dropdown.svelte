@@ -1,4 +1,3 @@
-<!-- @migration-task Error while migrating Svelte code: Identifier 'priorities' has already been declared -->
 <script lang="ts">
 	type prioritieOptions = 'high' | 'medium' | 'low' | 'none';
 

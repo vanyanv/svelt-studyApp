@@ -7,8 +7,9 @@
 		priority: 'high' | 'medium' | 'low' | 'none';
 	};
 
+	//state for each todo
 	let editing: boolean = $state(false);
-	let edit: string = $state();
+	let edit: string = $state('');
 
 	function handleEdit() {
 		editing = !editing;
@@ -21,13 +22,8 @@
 		editATodo: (newTodo: string, index: number, priority: toDO['priority']) => void;
 	}
 
-	let {
-		index,
-		todo,
-		updateCompletion,
-		removeATodo,
-		editATodo
-	}: Props = $props();
+	//props
+	let { index, todo, updateCompletion, removeATodo, editATodo }: Props = $props();
 
 	let priorityForUser: toDO['priority'] = $state(todo.priority);
 </script>
