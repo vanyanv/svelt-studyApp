@@ -10,6 +10,12 @@ export function createTodos() {
 		return todos.filter((todo) => !todo.completed).length;
 	});
 
+	//updating local Storage
+	function updateStorage() {
+		console.log('storage updated');
+		localStorage.setItem('todos', JSON.stringify(todos));
+	}
+
 	//getting todos from local storage
 	$effect(() => {
 		const storedTodos = localStorage.getItem('todos');
@@ -25,30 +31,29 @@ export function createTodos() {
 	};
 
 	const remove = (index: number) => {
-		const removed = todos.filter((_, i) => i !== index);
-		todos = removed;
+		console.log('Remove');
+		todos = todos.filter((_, i) => i !== index);
+
 		updateStorage();
+		console.log(remove);
 	};
 
 	const completed = (index: number) => {
+		console.log('completed');
 		if (!todos[index]) return;
 		todos[index].completed = !todos[index].completed;
 		updateStorage();
+		console.log(todos[index].completed);
 	};
 
 	const edit = (index: number, newToDo: string, newPriority: priorities) => {
+		console.log('EDIT');
 		if (!todos[index]) return;
 		// Ensure both the task and priority are updated
 		todos[index].toDo = newToDo || todos[index].toDo; // Preserve old todo if no new one is passed
 		todos[index].priority = newPriority || todos[index].priority;
 		updateStorage();
 	};
-
-	//updating local Storage
-	function updateStorage() {
-		console.log('storage updated');
-		localStorage.setItem('todos', JSON.stringify(todos));
-	}
 
 	return {
 		get todos() {

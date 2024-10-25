@@ -1,54 +1,51 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import PrioritiesDropdown from './Priorities-Dropdown.svelte';
-
-	type toDO = {
-		toDo: string;
-		completed: boolean;
-		priority: 'high' | 'medium' | 'low' | 'none';
-	};
+	import { createTodos } from '../stores/todos.svelte';
 
 	//state for each todo
 	let editing: boolean = $state(false);
-	let edit: string = $state('');
+	let edited: string = $state('');
 
 	function handleEdit() {
 		editing = !editing;
 	}
 	interface Props {
 		index: number;
-		todo: toDO;
-		updateCompletion: (index: number) => void;
-		removeATodo: (index: number) => void;
-		editATodo: (newTodo: string, index: number, priority: toDO['priority']) => void;
+		todo: ToDo;
+		remove: (index: number) => void;
+		edit: (index: number, newToDo: string, newPriority: priorities) => void;
+		completed: (index: number) => void;
 	}
 
 	//props
-	let { index, todo, updateCompletion, removeATodo, editATodo }: Props = $props();
+	let { index, todo, remove, edit, completed }: Props = $props();
+	console.log(todo);
+	const storedTodos = createTodos();
 
-	let priorityForUser: toDO['priority'] = $state(todo.priority);
+	let priorityForUser: ToDo['priority'] = $state(todo.priority);
 </script>
 
 <div transition:fade={{ duration: 500 }} class="todo {todo.priority}">
 	{#if editing}
 		<div class="edit-container">
-			<input type="text" bind:value={edit} class="edit-input" placeholder={todo.toDo} />
+			<input type="text" bind:value={edited} class="edit-input" placeholder={todo.toDo} />
 			<PrioritiesDropdown bind:priorityForUser />
 			<button
 				class="confirm"
 				onclick={() => {
-					editATodo(edit, index, priorityForUser);
+					edit(index, edited, priorityForUser);
 					handleEdit();
 				}}>Confirm</button
 			>
 			<button class="cancel" onclick={handleEdit}>Cancel</button>
 		</div>
 	{:else}
-		<input type="checkbox" checked={todo.completed} onclick={() => updateCompletion(index)} />
+		<input type="checkbox" checked={todo.completed} onclick={() => completed(index)} />
 		<p class:completed={todo.completed}>{todo.toDo}</p>
 		<p class="priority-label">{todo.priority}</p>
 		<div class="todo-buttons">
-			<button class="delete" onclick={() => removeATodo(index)}>Delete</button>
+			<button class="delete" onclick={() => remove(index)}>Delete</button>
 			<button class="edit" onclick={handleEdit}>Edit</button>
 		</div>
 	{/if}
