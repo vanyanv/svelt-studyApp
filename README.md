@@ -53,7 +53,7 @@ Below are feature ideas that will help you dive deeper into Svelte’s core conc
 
 ### 7. Reactive Statements and Logic
 
-- [ ] **Feature**: Add conditional rendering, such as showing a message when there are no tasks or displaying a progress bar for completed tasks.
+- [x] **Feature**: Add conditional rendering, such as showing a message when there are no tasks or displaying a progress bar for completed tasks.
 - **Concept**: Svelte’s `$:` reactive statements update variables and trigger changes based on state.
 - **Learning Outcome**: Understand how to leverage Svelte’s reactivity to simplify logic in your app.
 
@@ -101,7 +101,7 @@ Below are feature ideas that will help you dive deeper into Svelte’s core conc
 
 ### 15. Svelte Stores with LocalStorage
 
-- [ ] **Feature**: Implement persistent task storage using `localStorage` to retain tasks after page reloads.
+- [x] **Feature**: Implement persistent task storage using `localStorage` to retain tasks after page reloads.
 - **Concept**: Sync Svelte stores with browser APIs like `localStorage` for persistence.
 - **Learning Outcome**: Understand how to combine Svelte stores with browser storage to persist data.
 
@@ -109,7 +109,7 @@ Below are feature ideas that will help you dive deeper into Svelte’s core conc
 
 - [x] **Task Editing**: Allow users to edit existing tasks in the list.
 - [x] **Task Prioritization**: Add priority levels (e.g., High, Medium, Low) to each task.
-- [ ] **Task Filtering**: Implement filtering by "All," "Completed," or "Pending" tasks.
+- [] **Task Filtering**: Implement filtering by "All," "Completed," or "Pending" tasks.
 - [ ] **Task Due Dates**: Allow users to set due dates for tasks and sort by date.
 - [ ] **Task Count**: Show the total number of tasks and the number of completed tasks.
 

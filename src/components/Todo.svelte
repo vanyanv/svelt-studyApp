@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
 	import PrioritiesDropdown from './Priorities-Dropdown.svelte';
 
 	type toDO = {
@@ -28,7 +29,7 @@
 	let priorityForUser: toDO['priority'] = $state(todo.priority);
 </script>
 
-<div class="todo {todo.priority}">
+<div transition:fade={{ duration: 500 }} class="todo {todo.priority}">
 	{#if editing}
 		<div class="edit-container">
 			<input type="text" bind:value={edit} class="edit-input" placeholder={todo.toDo} />

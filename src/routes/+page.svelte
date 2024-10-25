@@ -3,14 +3,6 @@
 	import Statistics from '../components/Statistics.svelte';
 	import PrioritiesDropdown from '../components/Priorities-Dropdown.svelte';
 
-	type priorities = 'high' | 'medium' | 'low' | 'none';
-
-	type ToDo = {
-		toDo: string;
-		completed: boolean;
-		priority: priorities;
-	};
-
 	let newToDo = $state('');
 	let priorityForUser: priorities = $state('none');
 
@@ -24,7 +16,6 @@
 	let numberofRemainingTasks = $derived.by(() => {
 		return todos.filter((todo) => !todo.completed).length;
 	});
-	$derived: console.log('main', priorityForUser);
 
 	$effect(() => {
 		const storedTodos = localStorage.getItem('todos');
@@ -65,14 +56,12 @@
 		todos[index].completed = !todos[index].completed;
 		updateStorage();
 	}
-
-	$derived: console.log(todos);
 </script>
 
 <h1>To Do List</h1>
 <div class="input-container">
 	<input type="text" bind:value={newToDo} placeholder="Enter a new task" />
-	<button on:click={addTodos}>Add</button>
+	<button onclick={addTodos}>Add</button>
 	<label for="priority">Select a Priority</label>
 	<PrioritiesDropdown bind:priorityForUser />
 </div>
@@ -84,8 +73,7 @@
 {#if todos.length == 0}
 	<p>Loading Tasks....</p>
 {/if}
-
-{#each todos as todo, index}
+{#each todos as todo, index (todo.toDo)}
 	<Todo {index} {todo} {updateCompletion} {removeATodo} {editATodo} />
 {/each}
 
