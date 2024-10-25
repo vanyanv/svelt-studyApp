@@ -3,6 +3,7 @@
 	import Todo from '../components/Todo.svelte';
 	import Statistics from '../components/Statistics.svelte';
 	import PrioritiesDropdown from '../components/Priorities-Dropdown.svelte';
+	import FilterDropdown from '../components/Filter-Dropdown.svelte';
 
 	let newToDo = $state('');
 	let priorityForUser: priorities = $state('none');
@@ -20,6 +21,12 @@
 
 <!-- // statistics and data -->
 <Statistics />
+
+<!-- Filter dropdown -->
+<FilterDropdown
+	filterByTask={storedTodos.filterByTasksStatus}
+	filterByPrio={storedTodos.filterByPriority}
+/>
 
 <h2>Tasks</h2>
 {#if storedTodos.todos.length === 0}

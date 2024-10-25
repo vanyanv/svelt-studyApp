@@ -1,13 +1,26 @@
 <script lang="ts">
-	let filter = $state('all');
+	let filterTasksStatus = $state('all');
+	let filterPriority: 'all' | 'high' | 'medium' | 'low' | 'none' = $state('all');
+
 	const options = ['All', 'Completed'];
-	const priorities = ['high', 'medium', 'low', 'none', 'all'];
+	const priorities = ['All', 'High', 'Medium', 'Low', 'None'];
+
+	interface Props {
+		filterByTask: (input: string) => void;
+		filterByPrio: (input: priorities | 'all') => void;
+	}
+
+	let { filterByTask, filterByPrio }: Props = $props();
 </script>
 
 <div class="filter-container">
 	<div class="filter-group">
 		<label for="filter">Task Status</label>
-		<select bind:value={filter} class="filter-dropdown">
+		<select
+			bind:value={filterTasksStatus}
+			onchange={() => filterByTask(filterTasksStatus)}
+			class="filter-dropdown"
+		>
 			{#each options as option}
 				<option value={option.toLowerCase()}>{option}</option>
 			{/each}
@@ -15,7 +28,11 @@
 	</div>
 	<div class="filter-group">
 		<label for="priority">Priority</label>
-		<select bind:value={filter} class="filter-dropdown">
+		<select
+			bind:value={filterPriority}
+			onchange={() => filterByPrio(filterPriority)}
+			class="filter-dropdown"
+		>
 			{#each priorities as option}
 				<option value={option.toLowerCase()}>{option}</option>
 			{/each}

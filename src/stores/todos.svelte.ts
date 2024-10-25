@@ -16,6 +16,11 @@ export function createTodos() {
 		localStorage.setItem('todos', JSON.stringify(todos));
 	}
 
+	function resetTodos() {
+		// Reset todos to the full list from localStorage
+		const storedTodos = localStorage.getItem('todos');
+		todos = storedTodos ? JSON.parse(storedTodos) : [];
+	}
 	//getting todos from local storage
 	$effect(() => {
 		const storedTodos = localStorage.getItem('todos');
@@ -55,6 +60,32 @@ export function createTodos() {
 		updateStorage();
 	};
 
+	//filter by task
+	const filterByTasksStatus = (input: string) => {
+		resetTodos();
+		if (input === 'all') {
+			// Reset todos to the full list from localStorage
+			const storedTodos = localStorage.getItem('todos');
+			todos = storedTodos ? JSON.parse(storedTodos) : [];
+		} else if (input === 'completed') {
+			todos = todos.filter((todo) => todo.completed);
+		} else if (input === 'pending') {
+			todos = todos.filter((todo) => !todo.completed);
+		}
+	};
+
+	// filter by Priority
+	const filterByPriority = (input: priorities | 'all') => {
+		console.log(input);
+		if (input === 'all') {
+			// Reset todos to the full list from localStorage
+			const storedTodos = localStorage.getItem('todos');
+			todos = storedTodos ? JSON.parse(storedTodos) : [];
+		} else {
+			resetTodos();
+			todos = todos.filter((todo) => todo.priority == input);
+		}
+	};
 	return {
 		get todos() {
 			return todos;
@@ -72,6 +103,8 @@ export function createTodos() {
 		remove,
 		edit,
 		updateStorage,
-		completed
+		completed,
+		filterByTasksStatus,
+		filterByPriority
 	};
 }
