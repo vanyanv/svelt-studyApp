@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import PrioritiesDropdown from './Priorities-Dropdown.svelte';
-	import { createTodos } from '../stores/todos.svelte';
 
 	//state for each todo
 	let editing: boolean = $state(false);
@@ -20,8 +19,6 @@
 
 	//props
 	let { index, todo, remove, edit, completed }: Props = $props();
-	console.log(todo);
-	const storedTodos = createTodos();
 
 	let priorityForUser: ToDo['priority'] = $state(todo.priority);
 </script>

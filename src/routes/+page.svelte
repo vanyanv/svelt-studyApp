@@ -8,50 +8,6 @@
 	let priorityForUser: priorities = $state('none');
 
 	let storedTodos = createTodos();
-
-	// console.log(storedTodos);
-	// let todos: ToDo[] = $state([]);
-
-	// $effect(() => {
-	// 	const storedTodos = localStorage.getItem('todos');
-	// 	if (storedTodos) {
-	// 		todos = JSON.parse(storedTodos);
-	// 	}
-	// });
-
-	// //updating local Storage
-	// function updateStorage() {
-	// 	console.log('storage updated');
-	// 	localStorage.setItem('todos', JSON.stringify(todos));
-	// }
-
-	// //add a todo
-	// function addTodos() {
-	// 	console.log(priorityForUser);
-	// 	todos.unshift({ toDo: newToDo, completed: false, priority: priorityForUser });
-	// 	updateStorage();
-	// 	todos = todos;
-	// }
-
-	// //remove a todo
-	// function removeATodo(index: number) {
-	// 	todos = todos.filter((_, i) => i !== index);
-	// 	updateStorage();
-	// }
-	// //edit a todo
-	// function editATodo(newTodo: string, index: number, newPriority: priorities) {
-	// 	if (!todos[index]) return;
-	// 	// Ensure both the task and priority are updated
-	// 	todos[index].toDo = newTodo || todos[index].toDo; // Preserve old todo if no new one is passed
-	// 	todos[index].priority = newPriority || todos[index].priority;
-	// 	updateStorage();
-	// }
-
-	// function updateCompletion(index: number) {
-	// 	if (!todos[index]) return;
-	// 	todos[index].completed = !todos[index].completed;
-	// 	updateStorage();
-	// }
 </script>
 
 <h1>To Do List</h1>
