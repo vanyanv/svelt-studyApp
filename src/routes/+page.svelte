@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { createTodos } from '../stores/todos.svelte';
 	import Todo from '../components/Todo.svelte';
 	import Statistics from '../components/Statistics.svelte';
 	import PrioritiesDropdown from '../components/Priorities-Dropdown.svelte';
@@ -6,16 +7,18 @@
 	let newToDo = $state('');
 	let priorityForUser: priorities = $state('none');
 
+	const storedTodos = createTodos();
+	console.log(storedTodos);
 	let todos: ToDo[] = $state([]);
 
-	//dynamic stats
-	let numberOfTotalTasks: number = $derived(todos.length);
-	let numberOfCompletedTasks = $derived.by(() => {
-		return todos.filter((todo) => todo.completed).length;
-	});
-	let numberofRemainingTasks = $derived.by(() => {
-		return todos.filter((todo) => !todo.completed).length;
-	});
+	// //dynamic stats
+	// let numberOfTotalTasks: number = $derived(todos.length);
+	// let numberOfCompletedTasks = $derived.by(() => {
+	// 	return todos.filter((todo) => todo.completed).length;
+	// });
+	// let numberofRemainingTasks = $derived.by(() => {
+	// 	return todos.filter((todo) => !todo.completed).length;
+	// });
 
 	$effect(() => {
 		const storedTodos = localStorage.getItem('todos');
@@ -67,13 +70,13 @@
 </div>
 
 <!-- // statistics and data -->
-<Statistics {numberOfCompletedTasks} {numberofRemainingTasks} {numberOfTotalTasks} />
+<Statistics />
 
 <h2>Tasks</h2>
-{#if todos.length == 0}
+{#if storedTodos.todos.length == 0}
 	<p>Loading Tasks....</p>
 {/if}
-{#each todos as todo, index (todo.toDo)}
+{#each storedTodos.todos as todo, index (todo.toDo)}
 	<Todo {index} {todo} {updateCompletion} {removeATodo} {editATodo} />
 {/each}
 
