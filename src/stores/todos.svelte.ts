@@ -18,7 +18,7 @@ export function createTodos() {
 		}
 	});
 
-	const add = (toDO: string, completed: boolean, priority: priorities) => {
+	const add = (toDO: string, priority: priorities) => {
 		const newToDo: ToDo = { toDo: toDO, completed: false, priority: priority };
 		todos.unshift(newToDo);
 		updateStorage();

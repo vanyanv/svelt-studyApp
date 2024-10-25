@@ -33,13 +33,13 @@
 		localStorage.setItem('todos', JSON.stringify(todos));
 	}
 
-	//add a todo
-	function addTodos() {
-		console.log(priorityForUser);
-		todos.unshift({ toDo: newToDo, completed: false, priority: priorityForUser });
-		updateStorage();
-		todos = todos;
-	}
+	// //add a todo
+	// function addTodos() {
+	// 	console.log(priorityForUser);
+	// 	todos.unshift({ toDo: newToDo, completed: false, priority: priorityForUser });
+	// 	updateStorage();
+	// 	todos = todos;
+	// }
 	//remove a todo
 	function removeATodo(index: number) {
 		todos = todos.filter((_, i) => i !== index);
@@ -64,7 +64,7 @@
 <h1>To Do List</h1>
 <div class="input-container">
 	<input type="text" bind:value={newToDo} placeholder="Enter a new task" />
-	<button onclick={addTodos}>Add</button>
+	<button onclick={() => storedTodos.add(newToDo, priorityForUser)}>Add</button>
 	<label for="priority">Select a Priority</label>
 	<PrioritiesDropdown bind:priorityForUser />
 </div>
