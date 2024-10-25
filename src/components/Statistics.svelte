@@ -1,19 +1,23 @@
 <script lang="ts">
-	let { numberOfTotalTasks, numberOfCompletedTasks, numberofRemainingTasks } = $props();
+	import { createTodos } from '../stores/todos.svelte';
+
+	// let { numberOfTotalTasks, numberOfCompletedTasks, numberofRemainingTasks } = $props();
+
+	const storedTodos = createTodos();
 </script>
 
 <div class="stats-container">
 	<div class="stat-card">
 		<h3>Total Tasks</h3>
-		<p>{numberOfTotalTasks}</p>
+		<p>{storedTodos.numberOfTotalTasks}</p>
 	</div>
 	<div class="stat-card">
 		<h3>Completed Tasks</h3>
-		<p>{numberOfCompletedTasks}</p>
+		<p>{storedTodos.numberOfCompletedTasks}</p>
 	</div>
 	<div class="stat-card">
 		<h3>Remaining Tasks</h3>
-		<p>{numberofRemainingTasks}</p>
+		<p>{storedTodos.numberofRemainingTasks}</p>
 	</div>
 </div>
 

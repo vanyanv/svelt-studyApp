@@ -1,92 +1,45 @@
 <script lang="ts">
+	import { createTodos } from '../stores/todos.svelte';
 	import Todo from '../components/Todo.svelte';
 	import Statistics from '../components/Statistics.svelte';
 	import PrioritiesDropdown from '../components/Priorities-Dropdown.svelte';
-
-	type priorities = 'high' | 'medium' | 'low' | 'none';
-
-	type ToDo = {
-		toDo: string;
-		completed: boolean;
-		priority: priorities;
-	};
+	import FilterDropdown from '../components/Filter-Dropdown.svelte';
 
 	let newToDo = $state('');
 	let priorityForUser: priorities = $state('none');
 
-	let todos: ToDo[] = $state([]);
-
-	//dynamic stats
-	let numberOfTotalTasks: number = $derived(todos.length);
-	let numberOfCompletedTasks = $derived.by(() => {
-		return todos.filter((todo) => todo.completed).length;
-	});
-	let numberofRemainingTasks = $derived.by(() => {
-		return todos.filter((todo) => !todo.completed).length;
-	});
-	$derived: console.log('main', priorityForUser);
-
-	$effect(() => {
-		const storedTodos = localStorage.getItem('todos');
-		if (storedTodos) {
-			todos = JSON.parse(storedTodos);
-		}
-	});
-
-	//updating local Storage
-	function updateStorage() {
-		console.log('storage updated');
-		localStorage.setItem('todos', JSON.stringify(todos));
-	}
-
-	//add a todo
-	function addTodos() {
-		console.log(priorityForUser);
-		todos.unshift({ toDo: newToDo, completed: false, priority: priorityForUser });
-		updateStorage();
-		todos = todos;
-	}
-	//remove a todo
-	function removeATodo(index: number) {
-		todos = todos.filter((_, i) => i !== index);
-		updateStorage();
-	}
-	//edit a todo
-	function editATodo(newTodo: string, index: number, newPriority: priorities) {
-		if (!todos[index]) return;
-		// Ensure both the task and priority are updated
-		todos[index].toDo = newTodo || todos[index].toDo; // Preserve old todo if no new one is passed
-		todos[index].priority = newPriority || todos[index].priority;
-		updateStorage();
-	}
-
-	function updateCompletion(index: number) {
-		if (!todos[index]) return;
-		todos[index].completed = !todos[index].completed;
-		updateStorage();
-	}
-
-	$derived: console.log(todos);
+	let storedTodos = createTodos();
 </script>
 
 <h1>To Do List</h1>
 <div class="input-container">
 	<input type="text" bind:value={newToDo} placeholder="Enter a new task" />
-	<button on:click={addTodos}>Add</button>
+	<button onclick={() => storedTodos.add(newToDo, priorityForUser)}>Add</button>
 	<label for="priority">Select a Priority</label>
 	<PrioritiesDropdown bind:priorityForUser />
 </div>
 
 <!-- // statistics and data -->
-<Statistics {numberOfCompletedTasks} {numberofRemainingTasks} {numberOfTotalTasks} />
+<Statistics />
+
+<!-- Filter dropdown -->
+<FilterDropdown
+	filterByTask={storedTodos.filterByTasksStatus}
+	filterByPrio={storedTodos.filterByPriority}
+/>
 
 <h2>Tasks</h2>
-{#if todos.length == 0}
+{#if storedTodos.todos.length === 0}
 	<p>Loading Tasks....</p>
 {/if}
-
-{#each todos as todo, index}
-	<Todo {index} {todo} {updateCompletion} {removeATodo} {editATodo} />
+{#each storedTodos.todos as todo, index}
+	<Todo
+		{index}
+		{todo}
+		remove={storedTodos.remove}
+		edit={storedTodos.edit}
+		completed={storedTodos.completed}
+	/>
 {/each}
 
 <style>
